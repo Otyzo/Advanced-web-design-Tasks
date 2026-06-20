@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopMart — Register (Week 3 JS Validation Demo)</title>
+<style>
+  :root {
+    --bg: #1c1f26;
+    --panel: #242831;
+    --border: #343a46;
+    --text: #e7e9ec;
+    --muted: #9aa3b2;
+    --emerald: #10b981;
+    --emerald-dim: #0c7a5c;
+    --red: #ef4444;
+    --amber: #f59e0b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  }
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .brand span:first-child {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--emerald);
+  }
+  .brand span:last-child {
+    font-weight: 700;
+    font-size: 1.4rem;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+  }
+  label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    color: var(--muted);
+  }
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #1a1d23;
+    color: var(--text);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  input:focus { border-color: var(--emerald); }
+  input.invalid { border-color: var(--red); }
+  input.valid { border-color: var(--emerald); }
+
+  .field { margin-bottom: 16px; }
+  .error-msg {
+    font-size: 0.78rem;
+    color: var(--red);
+    min-height: 16px;
+    margin-top: 2px;
+  }
+
+  /* Password strength meter */
+  .strength-bar {
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .strength-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 3px;
+    background: var(--red);
+    transition: width 0.2s ease, background 0.2s ease;
+  }
+  .strength-label {
+    font-size: 0.75rem;
+    margin-top: 4px;
+    color: var(--muted);
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 8px;
+    background: var(--emerald);
+    color: #0b1410;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  button:hover { background: var(--emerald-dim); color: #fff; }
+  button:disabled {
+    background: var(--border);
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+
+  .success-banner {
+    display: none;
+    background: rgba(16,185,129,0.12);
+    border: 1px solid var(--emerald);
+    color: var(--emerald);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+  }
+  .success-banner.show { display: block; }
+
+  .note {
+    margin-top: 18px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="brand"><span>Shop</span><span>Mart</span></div>
+  <div class="subtitle">Create your account — Week 3 demo (client-side validation only)</div>
+
+  <div class="success-banner" id="successBanner">
+    ✅ All fields valid. In Week 4–5 this form will submit to PHP + MySQL.
+  </div>
+
+  <form id="regForm" novalidate>
+    <div class="field">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="e.g. stephen_o" autocomplete="off">
+      <div class="error-msg" id="usernameError"></div>
+    </div>
+
+    <div class="field">
+      <label for="email">Email address</label>
+      <input type="text" id="email" name="email" placeholder="you@example.com" autocomplete="off">
+      <div class="error-msg" id="emailError"></div>
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="At least 8 characters" autocomplete="off">
+      <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+      <div class="strength-label" id="strengthLabel">Strength: —</div>
+      <div class="error-msg" id="passwordError"></div>
+    </div>
+
+    <div class="field">
+      <label for="confirmPassword">Confirm password</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" autocomplete="off">
+      <div class="error-msg" id="confirmError"></div>
+    </div>
+
+    <button type="submit" id="submitBtn">Create account</button>
+  </form>
+
+  <div class="note">
+    <strong>Week 3 — JavaScript &amp; PHP Basics.</strong> This page demonstrates DOM manipulation
+    and form validation entirely in the browser: required fields, email format check, a live
+    password-strength meter, and password-confirmation matching. No data is sent anywhere —
+    the backend connection (PHP + MySQL) is built in Weeks 4–5.
+  </div>
+</div>
+
+<script>
+  // ----- Element references -----
+  const form = document.getElementById('regForm');
+  const usernameInput = document.getElementById('username');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const confirmInput = document.getElementById('confirmPassword');
+  const submitBtn = document.getElementById('submitBtn');
+  const successBanner = document.getElementById('successBanner');
+
+  const strengthFill = document.getElementById('strengthFill');
+  const strengthLabel = document.getElementById('strengthLabel');
+
+  // ----- Helpers -----
+  function setError(input, errorEl, message) {
+    if (message) {
+      input.classList.add('invalid');
+      input.classList.remove('valid');
+      errorEl.textContent = message;
+      return false;
+    } else {
+      input.classList.remove('invalid');
+      input.classList.add('valid');
+      errorEl.textContent = '';
+      return true;
+    }
+  }
+
+  function validateUsername() {
+    const value = usernameInput.value.trim();
+    const errorEl = document.getElementById('usernameError');
+    if (value === '') return setError(usernameInput, errorEl, 'Username is required.');
+    if (value.length < 3) return setError(usernameInput, errorEl, 'Must be at least 3 characters.');
+    if (!/^[a-zA-Z0-9_]+$/.test(value)) return setError(usernameInput, errorEl, 'Letters, numbers, underscores only.');
+    return setError(usernameInput, errorEl, '');
+  }
+
+  function validateEmail() {
+    const value = emailInput.value.trim();
+    const errorEl = document.getElementById('emailError');
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (value === '') return setError(emailInput, errorEl, 'Email is required.');
+    if (!pattern.test(value)) return setError(emailInput, errorEl, 'Enter a valid email address.');
+    return setError(emailInput, errorEl, '');
+  }
+
+  // Password strength checker: scores 0-4 based on length + character variety
+  function getPasswordStrength(value) {
+    let score = 0;
+    if (value.length >= 8) score++;
+    if (/[A-Z]/.test(value)) score++;
+    if (/[0-9]/.test(value)) score++;
+    if (/[^A-Za-z0-9]/.test(value)) score++;
+    return score; // 0-4
+  }
+
+  function updateStrengthMeter() {
+    const value = passwordInput.value;
+    const score = getPasswordStrength(value);
+    const percentages = [10, 25, 50, 75, 100];
+    const colors = ['#ef4444', '#ef4444', '#f59e0b', '#10b981', '#10b981'];
+    const labels = ['Too short', 'Weak', 'Fair', 'Good', 'Strong'];
+
+    strengthFill.style.width = percentages[score] + '%';
+    strengthFill.style.background = colors[score];
+    strengthLabel.textContent = value === '' ? 'Strength: —' : 'Strength: ' + labels[score];
+  }
+
+  function validatePassword() {
+    const value = passwordInput.value;
+    const errorEl = document.getElementById('passwordError');
+    updateStrengthMeter();
+    if (value === '') return setError(passwordInput, errorEl, 'Password is required.');
+    if (value.length < 8) return setError(passwordInput, errorEl, 'Must be at least 8 characters.');
+    return setError(passwordInput, errorEl, '');
+  }
+
+  function validateConfirm() {
+    const errorEl = document.getElementById('confirmError');
+    if (confirmInput.value === '') return setError(confirmInput, errorEl, 'Please confirm your password.');
+    if (confirmInput.value !== passwordInput.value) return setError(confirmInput, errorEl, 'Passwords do not match.');
+    return setError(confirmInput, errorEl, '');
+  }
+
+  // ----- Live validation as the user types (DOM manipulation in action) -----
+  usernameInput.addEventListener('input', validateUsername);
+  emailInput.addEventListener('input', validateEmail);
+  passwordInput.addEventListener('input', () => { validatePassword(); validateConfirm(); });
+  confirmInput.addEventListener('input', validateConfirm);
+
+  // ----- Form submit: re-run all checks, block if any fail -----
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    successBanner.classList.remove('show');
+
+    const checks = [
+      validateUsername(),
+      validateEmail(),
+      validatePassword(),
+      validateConfirm()
+    ];
+
+    const allValid = checks.every(Boolean);
+
+    if (allValid) {
+      successBanner.classList.add('show');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Validated ✓';
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Create account';
+    }
+  });
+</script>
+
+</body>
+</html>
