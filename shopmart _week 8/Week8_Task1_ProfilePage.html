@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Viewport meta tag: required so mobile browsers render at actual device width, not a zoomed-out desktop layout -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stephen Otiende · BBIT Student Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  /* ===== Design tokens ===== */
+  :root{
+    --bg:#12151A;
+    --surface:#1B2027;
+    --surface-2:#222832;
+    --border:#2B313C;
+    --text:#ECEDEE;
+    --muted:#8B939E;
+    --accent:#2DD4A8;
+    --accent-dim:rgba(45,212,168,0.14);
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    /* Mobile-first base font size — gets bumped up at larger breakpoints below */
+    font-size:16px;
+  }
+
+  img, .avatar-img{
+    /* Responsive image rule: image scales with its container instead of overflowing */
+    max-width:100%;
+    height:auto;
+    display:block;
+  }
+
+  a{ color:var(--accent); text-decoration:none; }
+
+  .container{
+    width:100%;
+    max-width:880px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+
+  /* ===== Top bar ===== */
+  .topbar{
+    border-bottom:1px solid var(--border);
+    padding:18px 0;
+  }
+  .topbar .container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .topbar-mark{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--accent);
+  }
+  .topbar-course{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  /* ===== Hero / intro section ===== */
+  .hero{
+    padding:48px 0 32px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:28px;
+  }
+
+  .avatar-wrap{
+    width:128px;
+    flex-shrink:0;
+  }
+  .avatar-img{
+    border-radius:50%;
+    border:2px solid var(--accent);
+  }
+
+  .terminal-line{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--accent);
+    margin-bottom:10px;
+  }
+  .terminal-line::before{ content:"$ "; color:var(--muted); }
+
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:30px;
+    letter-spacing:-0.01em;
+  }
+
+  .role{
+    font-family:'Inter',sans-serif;
+    color:var(--muted);
+    font-size:15px;
+    margin-top:6px;
+  }
+
+  .bio{
+    max-width:520px;
+    margin-top:16px;
+    color:#C9CDD3;
+    font-size:15px;
+  }
+
+  /* Contact row — Flexbox, wraps naturally on narrow screens */
+  .contact-row{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    margin-top:20px;
+    width:100%;
+  }
+  .contact-item{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--text);
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:8px 14px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .contact-item .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--accent);
+    flex-shrink:0;
+  }
+
+  /* ===== Skills section ===== */
+  .section-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:14px;
+  }
+
+  .stack{
+    padding:24px 0 60px;
+    border-top:1px solid var(--border);
+  }
+
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .chip{
+    background:var(--accent-dim);
+    border:1px solid var(--accent);
+    color:var(--accent);
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    padding:7px 12px;
+    border-radius:6px;
+  }
+
+  footer{
+    border-top:1px solid var(--border);
+    padding:20px 0;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  /* ===== Tablet breakpoint ===== */
+  @media (min-width:600px){
+    body{ font-size:17px; }
+    h1{ font-size:36px; }
+    .hero{
+      flex-direction:row;
+      align-items:flex-start;
+      text-align:left;
+      padding:64px 0 40px;
+      gap:36px;
+    }
+    .avatar-wrap{ width:150px; }
+    .contact-row{ align-items:flex-start; flex-direction:row; flex-wrap:wrap; }
+    .bio{ margin-left:0; }
+  }
+
+  /* ===== Desktop breakpoint ===== */
+  @media (min-width:1024px){
+    body{ font-size:18px; }
+    h1{ font-size:42px; }
+    .hero{ padding:88px 0 56px; gap:48px; }
+    .avatar-wrap{ width:176px; }
+    .bio{ max-width:560px; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="container">
+      <span class="topbar-mark">stephen-otiende.dev</span>
+      <span class="topbar-course">BIT3208 · Week 8 · Task 1</span>
+    </div>
+  </div>
+
+  <main class="container">
+    <section class="hero">
+      <div class="avatar-wrap">
+        <!-- Profile picture: a real <img> tag, sized responsively with max-width:100%; height:auto -->
+        <img class="avatar-img" alt="Profile avatar for Stephen Otiende"
+          src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTI4IDEyOCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgZmlsbD0iIzFCMjAyNyIvPjxjaXJjbGUgY3g9IjY0IiBjeT0iNTAiIHI9IjIyIiBmaWxsPSIjMkIzMTNDIi8+PHBhdGggZD0iTTIwIDExNmM0LTI2IDI2LTQwIDQ0LTQwczQwIDE0IDQ0IDQwIiBmaWxsPSIjMkIzMTNDIi8+PHRleHQgeD0iNjQiIHk9IjU4IiBmb250LWZhbWlseT0iU3BhY2UgR3JvdGVzaywgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIyMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzJERDRBOCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+U088L3RleHQ+PC9zdmc+">
+      </div>
+
+      <div class="intro">
+        <p class="terminal-line">whoami</p>
+        <h1>Stephen Otiende</h1>
+        <p class="role">BBIT Student · Mount Kenya University · Aspiring Web Developer</p>
+        <p class="bio">
+          Third-year BBIT student at MKU, currently working through BIT3208 (Advanced Web Design
+          and Development) under Mr. Michael Nyoro. I build full-stack projects with PHP, MySQL,
+          and JavaScript — most recently ShopMart, a KES-priced e-commerce platform, and a flood
+          emergency resource allocation system for Nairobi County.
+        </p>
+
+        <div class="contact-row">
+          <span class="contact-item"><span class="dot"></span>otiende@example.com</span>
+          <span class="contact-item"><span class="dot"></span>github.com/Otyzo</span>
+          <span class="contact-item"><span class="dot"></span>Nairobi, Kenya</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="stack">
+      <p class="section-label">Currently working with</p>
+      <div class="chips">
+        <span class="chip">PHP</span>
+        <span class="chip">MySQL</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">HTML5 / CSS3</span>
+        <span class="chip">Flexbox &amp; Grid</span>
+        <span class="chip">Git</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    BIT3208 — Advanced Web Design and Development · Week 8 Practical Task
+  </footer>
+
+</body>
+</html>

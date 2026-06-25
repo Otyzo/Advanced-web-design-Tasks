@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Viewport meta tag: tells mobile browsers to render at device width instead of a shrunk desktop view -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopMart · Featured Picks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  /* ===== Design tokens (shared palette with Task 1, plus a price accent) ===== */
+  :root{
+    --bg:#12151A;
+    --surface:#1B2027;
+    --border:#2B313C;
+    --text:#ECEDEE;
+    --muted:#8B939E;
+    --accent:#2DD4A8;
+    --accent-dim:rgba(45,212,168,0.14);
+    --price:#F2B134;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    font-size:16px; /* mobile-first base */
+  }
+
+  img, .product-img{
+    /* Responsive image rule — scales inside its card, never overflows */
+    max-width:100%;
+    height:auto;
+    display:block;
+  }
+
+  .container{
+    width:100%;
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 20px;
+  }
+
+  /* ===== Header ===== */
+  header{
+    border-bottom:1px solid var(--border);
+    padding:18px 0;
+  }
+  header .container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .wordmark{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:18px;
+  }
+  .wordmark span{ color:var(--accent); }
+  .header-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  /* ===== Intro ===== */
+  .intro{
+    padding:40px 0 28px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--accent);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:10px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:28px;
+    letter-spacing:-0.01em;
+  }
+  .intro p{
+    color:var(--muted);
+    margin-top:10px;
+    font-size:15px;
+  }
+
+  /* ===== Product grid =====
+     Mobile-first: single column by default. Breakpoints widen the grid
+     as more screen space becomes available. */
+  .grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:20px;
+    padding:8px 0 64px;
+  }
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:12px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .card-media{
+    background:#161A20;
+    padding:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .card-media img{
+    width:84px;
+    height:auto;
+  }
+
+  .card-body{
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    flex-grow:1;
+  }
+
+  .card-name{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:17px;
+  }
+
+  .card-desc{
+    color:var(--muted);
+    font-size:14px;
+    flex-grow:1;
+  }
+
+  .card-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:6px;
+    gap:10px;
+  }
+
+  /* Price tag: dashed "perforated receipt" styling as the signature detail */
+  .price-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;
+    color:var(--price);
+    border:1px dashed var(--price);
+    border-radius:6px;
+    padding:5px 10px;
+    white-space:nowrap;
+  }
+
+  .add-btn{
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:13px;
+    color:#0E1410;
+    background:var(--accent);
+    border:none;
+    border-radius:7px;
+    padding:8px 14px;
+    cursor:pointer;
+  }
+  .add-btn:hover{ opacity:0.88; }
+
+  footer{
+    border-top:1px solid var(--border);
+    padding:20px 0;
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  /* ===== Breakpoint 1: Tablet — 2 columns ===== */
+  @media (min-width:600px){
+    body{ font-size:17px; }
+    h1{ font-size:34px; }
+    .grid{
+      grid-template-columns:repeat(2, 1fr);
+      gap:24px;
+    }
+  }
+
+  /* ===== Breakpoint 2: Desktop — 4 columns ===== */
+  @media (min-width:1024px){
+    body{ font-size:18px; }
+    h1{ font-size:38px; }
+    .grid{
+      grid-template-columns:repeat(4, 1fr);
+      gap:28px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <div class="wordmark">Shop<span>Mart</span></div>
+      <div class="header-tag">BIT3208 · Week 8 · Task 2</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <p class="eyebrow">Featured Picks</p>
+      <h1>Small Business Showcase</h1>
+      <p>Four products, one responsive grid — built mobile-first with CSS Grid and two breakpoints.</p>
+    </section>
+
+    <section class="grid">
+
+      <!-- Product 1 -->
+      <article class="card">
+        <div class="card-media">
+          <img class="product-img" alt="Wireless earbuds icon"
+            src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSIxMCIgeT0iMzAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI0NCIgcng9IjE0IiBmaWxsPSIjMjIyODMyIiBzdHJva2U9IiMyREQ0QTgiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSIxMCIgeTE9IjUyIiB4Mj0iOTAiIHkyPSI1MiIgc3Ryb2tlPSIjMkIzMTNDIiBzdHJva2Utd2lkdGg9IjIiLz48Y2lyY2xlIGN4PSIzOCIgY3k9IjUyIiByPSI5IiBmaWxsPSIjMkRENEE4Ii8+PGNpcmNsZSBjeD0iNjIiIGN5PSI1MiIgcj0iOSIgZmlsbD0iIzJERDRBOCIvPjwvc3ZnPg==">
+        </div>
+        <div class="card-body">
+          <div class="card-name">Wireless Earbuds</div>
+          <p class="card-desc">Compact charging case, 24-hour battery life, sweat resistant.</p>
+          <div class="card-footer">
+            <span class="price-tag">KSh 3,499</span>
+            <button class="add-btn">Add to cart</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Product 2 -->
+      <article class="card">
+        <div class="card-media">
+          <img class="product-img" alt="Smart watch icon"
+            src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSIzMCIgeT0iOCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjE0IiByeD0iNSIgZmlsbD0iIzJCMzEzQyIvPjxyZWN0IHg9IjMwIiB5PSI3OCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjE0IiByeD0iNSIgZmlsbD0iIzJCMzEzQyIvPjxyZWN0IHg9IjI0IiB5PSIyNiIgd2lkdGg9IjUyIiBoZWlnaHQ9IjQ4IiByeD0iMTIiIGZpbGw9IiMyMjI4MzIiIHN0cm9rZT0iIzJERDRBOCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMyIgZmlsbD0iIzJERDRBOCIvPjxyZWN0IHg9IjczIiB5PSI0MiIgd2lkdGg9IjUiIGhlaWdodD0iMTAiIHJ4PSIyIiBmaWxsPSIjMkRENEE4Ii8+PC9zdmc+">
+        </div>
+        <div class="card-body">
+          <div class="card-name">Smart Watch</div>
+          <p class="card-desc">Heart-rate tracking, notifications, and a 7-day battery.</p>
+          <div class="card-footer">
+            <span class="price-tag">KSh 6,200</span>
+            <button class="add-btn">Add to cart</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Product 3 -->
+      <article class="card">
+        <div class="card-media">
+          <img class="product-img" alt="Canvas tote bag icon"
+            src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMjggMzhjMC0xMiA5LTIwIDIyLTIwczIyIDggMjIgMjAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJERDRBOCIgc3Ryb2tlLXdpZHRoPSIzIi8+PHJlY3QgeD0iMjAiIHk9IjM2IiB3aWR0aD0iNjAiIGhlaWdodD0iNTAiIHJ4PSI4IiBmaWxsPSIjMjIyODMyIiBzdHJva2U9IiMyREQ0QTgiIHN0cm9rZS13aWR0aD0iMiIvPjxyZWN0IHg9IjM4IiB5PSIzNiIgd2lkdGg9IjI0IiBoZWlnaHQ9IjEyIiBmaWxsPSIjMTYxQTIwIi8+PC9zdmc+">
+        </div>
+        <div class="card-body">
+          <div class="card-name">Canvas Tote Bag</div>
+          <p class="card-desc">Durable cotton canvas, reinforced handles, inner pocket.</p>
+          <div class="card-footer">
+            <span class="price-tag">KSh 1,850</span>
+            <button class="add-btn">Add to cart</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Product 4 -->
+      <article class="card">
+        <div class="card-media">
+          <img class="product-img" alt="Desk lamp icon"
+            src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZWxsaXBzZSBjeD0iNTAiIGN5PSI4OCIgcng9IjI2IiByeT0iNSIgZmlsbD0iIzJCMzEzQyIvPjxsaW5lIHgxPSI1MCIgeTE9IjgzIiB4Mj0iNTAiIHkyPSIzOCIgc3Ryb2tlPSIjMkRENEE4IiBzdHJva2Utd2lkdGg9IjMiLz48cG9seWdvbiBwb2ludHM9IjMwLDM4IDcwLDM4IDYwLDEyIDQwLDEyIiBmaWxsPSIjMjIyODMyIiBzdHJva2U9IiMyREQ0QTgiIHN0cm9rZS13aWR0aD0iMiIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iMzgiIHI9IjQiIGZpbGw9IiMyREQ0QTgiLz48L3N2Zz4=">
+        </div>
+        <div class="card-body">
+          <div class="card-name">Desk Lamp</div>
+          <p class="card-desc">Adjustable neck, warm LED bulb, energy efficient.</p>
+          <div class="card-footer">
+            <span class="price-tag">KSh 2,750</span>
+            <button class="add-btn">Add to cart</button>
+          </div>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <footer>
+    BIT3208 — Advanced Web Design and Development · Week 8 Practical Task
+  </footer>
+
+</body>
+</html>
